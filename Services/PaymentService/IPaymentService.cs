@@ -6,9 +6,9 @@ namespace OpenPayment.Services.PaymentService
 {
     public interface IPaymentService
     {
-        Task<Guid?> EnqueuePayment(PaymentRequestDTO paymentRequest, Guid clientId);
+        Task<Guid?> AddPaymentToProcessing(PaymentRequestDTO paymentRequest, Guid clientId);
         ChannelReader<Payment> GetPaymentQueueReader();
-        Payment? DequeuePayment(Guid clientId);
+        bool RemovePaymentFromProcessing(Guid clientId);
         List<Transaction> GetTransactionsByIban(string iban);
         void AddTransaction(string iban, Transaction transaction);
     }

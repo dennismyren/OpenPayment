@@ -27,7 +27,7 @@ namespace OpenPayment.Services.PaymentProcessor
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Error processing payment {payment.PaymentId}: {ex.Message}");
+                        _logger.LogError($"Error processing payment {payment.PaymentId}: {ex.Message}");
                     }
                 });
             }
@@ -39,17 +39,17 @@ namespace OpenPayment.Services.PaymentProcessor
 
             await Task.Delay(2000);
 
-            Payment? processedPayment = _paymentService.DequeuePayment(payment.ClientId);
+            bool paymentWasRemovedFromProcessing = _paymentService.RemovePaymentFromProcessing(payment.ClientId);
 
-            if (processedPayment != null)
+            if (paymentWasRemovedFromProcessing)
             {
                 Transaction transaction = new Transaction()
                 {
-                    PaymentId = processedPayment.PaymentId,
-                    CreditorAccount = processedPayment.CreditorAccount,
-                    DebtorAccount = processedPayment.DebtorAccount,
-                    Currency = processedPayment.Currency,
-                    TransactionAmount = processedPayment.InstructedAmount
+                    PaymentId = payment.PaymentId,
+                    CreditorAccount = payment.CreditorAccount,
+                    DebtorAccount = payment.DebtorAccount,
+                    Currency = payment.Currency,
+                    TransactionAmount = payment.InstructedAmount
                 };
                 _paymentService.AddTransaction(transaction.DebtorAccount, transaction);
                 _paymentService.AddTransaction(transaction.CreditorAccount, transaction);

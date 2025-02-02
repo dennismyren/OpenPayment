@@ -57,7 +57,7 @@ namespace OpenPayment.Tests
             var conflictResponses = responses.Where(r => r.StatusCode == HttpStatusCode.Conflict).Count();
 
             Assert.True(createdResponses == 1, $"The amount of successfull responses was not 1");
-            Assert.True(conflictResponses == 4, $"The amount of conflict responses was not 2");
+            Assert.True(conflictResponses == 4, $"The amount of conflict responses was not 4");
         }
 
         [Fact]

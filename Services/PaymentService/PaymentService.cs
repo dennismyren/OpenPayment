@@ -7,11 +7,17 @@ namespace OpenPayment.Services.PaymentService
 {
     public class PaymentService : IPaymentService
     {
-        private static readonly ConcurrentDictionary<Guid, Payment> _queuedPayments = new();
+        private readonly ILogger<PaymentService> _logger;
+        private static readonly ConcurrentDictionary<Guid, Payment> _paymentsInProcess = new();
         private readonly ConcurrentDictionary<string, List<Transaction>> _transactionsByIban = new();
         private static readonly Channel<Payment> _paymentProcessingChannel = Channel.CreateUnbounded<Payment>();
 
-        public async Task<Guid?> EnqueuePayment(PaymentRequestDTO paymentRequest, Guid clientId)
+        public PaymentService(ILogger<PaymentService> logger)
+        {
+            _logger = logger;
+        }
+
+        public async Task<Guid?> AddPaymentToProcessing(PaymentRequestDTO paymentRequest, Guid clientId)
         {
             var payment = new Payment()
             {
@@ -24,28 +30,36 @@ namespace OpenPayment.Services.PaymentService
             };
 
             // Check if there is a payment with client id present on the queue.
-            if (!_queuedPayments.TryAdd(payment.ClientId, payment))
+            if (!_paymentsInProcess.TryAdd(payment.ClientId, payment))
             {
                 return null;
             }
 
-            _queuedPayments[payment.ClientId] = payment;
+            _paymentsInProcess[payment.ClientId] = payment;
 
             await _paymentProcessingChannel.Writer.WriteAsync(payment);
             return payment.PaymentId;
         }
 
-        public Payment? DequeuePayment(Guid clientId)
+        public bool RemovePaymentFromProcessing(Guid clientId)
         {
-            if (_queuedPayments.TryRemove(clientId, out Payment? payment))
+            try
             {
-                Console.WriteLine($"Dequeued payment request with clientid: {payment.ClientId}");
-                return payment;
+                if (_paymentsInProcess.TryRemove(clientId, out Payment? payment))
+                {
+                    _logger.LogInformation($"Dequeued payment request with clientid: {payment.ClientId}");
+                    return true;
+                }
+                else
+                {
+                    _logger.LogInformation($"Payment request with clientid: {clientId} was not on queue");
+                    return false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine($"Payment request with clientid: {clientId} was not on queue");
-                return null;
+                _logger.LogError($"Could not remove payment from processing: {ex.Message}");
+                return false;
             }
         }
 

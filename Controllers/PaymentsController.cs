@@ -22,15 +22,16 @@ namespace OpenPayment.Controllers
         {
             if (!Request.Headers.TryGetValue("Client-ID", out var clientId))
             {
-                return BadRequest();
+                return BadRequest("Missing header Client-ID");
             }
             if (!Guid.TryParse(clientId, out Guid parsedClientId))
             {
-                return BadRequest();
+                return BadRequest("The format of the Client-ID is wrong");
             }
 
-            var paymentId = await _paymentService.EnqueuePayment(initiatePaymentRequest, parsedClientId);
+            var paymentId = await _paymentService.AddPaymentToProcessing(initiatePaymentRequest, parsedClientId);
 
+            // If there is no payment id, then there is a payment already processing with the same client id
             if (paymentId == null)
             {
                 return Conflict($"There is already a payment processing with client id: {parsedClientId}");
