@@ -1,0 +1,39 @@
+@OpenPayment_HostAddress = http://localhost:5286
+
+POST {{OpenPayment_HostAddress}}/payments
+Accept: application/json
+Content-Type: application/json
+Client-ID: 123e4567-e89b-12d3-a456-426614174000
+
+{
+  "debtorAccount": "DE89370400440532013000",
+  "creditorAccount": "FR7630006000011234567890189",
+  "instructedAmount": 12345.67,
+  "currency": "EUR"
+}
+###
+POST {{OpenPayment_HostAddress}}/payments
+Accept: application/json
+Content-Type: application/json
+Client-ID: 123e4567-e89b-12d3-a456-426614174000
+
+{
+  "debtorAccount": "DE89370400440532013000",
+  "creditorAccount": "FR7630006000011234567890189",
+  "instructedAmount": 12345.67,
+  "currency": "EUR"
+}
+###
+POST {{OpenPayment_HostAddress}}/payments
+Accept: application/json
+Content-Type: application/json
+Client-ID: 123e4567-e89b-12d3-a456-426614174000
+
+{
+  "debtorAccount": "DE89370400440532013000",
+  "creditorAccount": "FR7630006000011234567890189",
+  "instructedAmount": 12345.67,
+  "currency": "EUR"
+}
+###
+GET {{OpenPayment_HostAddress}}/accounts/FR7630006000011234567890189/transactions
