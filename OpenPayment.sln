@@ -1,28 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenPayment", "OpenPayment.csproj", "{1E3D7BBE-6490-496C-820A-A0850A9EBA97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenPayment", "OpenPayment.csproj", "{311C301F-CCFE-4BCD-A84E-6FD0A595F2CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenPayment.Tests", "..\OpenPayments\OpenPayment.Tests.csproj", "{AB98076E-3474-4527-A281-DE916D4EF1CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenPayment.Tests", "Tests\OpenPayment.Tests.csproj", "{60274D72-A87A-48BD-BD87-F43FC1DA0A5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1E3D7BBE-6490-496C-820A-A0850A9EBA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E3D7BBE-6490-496C-820A-A0850A9EBA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E3D7BBE-6490-496C-820A-A0850A9EBA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E3D7BBE-6490-496C-820A-A0850A9EBA97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB98076E-3474-4527-A281-DE916D4EF1CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB98076E-3474-4527-A281-DE916D4EF1CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB98076E-3474-4527-A281-DE916D4EF1CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB98076E-3474-4527-A281-DE916D4EF1CF}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{311C301F-CCFE-4BCD-A84E-6FD0A595F2CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{311C301F-CCFE-4BCD-A84E-6FD0A595F2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{311C301F-CCFE-4BCD-A84E-6FD0A595F2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{311C301F-CCFE-4BCD-A84E-6FD0A595F2CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60274D72-A87A-48BD-BD87-F43FC1DA0A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60274D72-A87A-48BD-BD87-F43FC1DA0A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60274D72-A87A-48BD-BD87-F43FC1DA0A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60274D72-A87A-48BD-BD87-F43FC1DA0A5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
