@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using OpenPayment.Models;
 using OpenPayment.Models.DTOs;
 using OpenPayment.Services.PaymentService;
 
@@ -29,17 +30,15 @@ namespace OpenPayment.Controllers
                 return BadRequest("Invalid Client-ID header: expected a GUID in the format 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.");
             }
 
-            var paymentId = await _paymentService.AddPaymentToProcessing(initiatePaymentRequest, parsedClientId);
+            var paymentInfo = await _paymentService.AddPaymentToProcessing(initiatePaymentRequest, parsedClientId);
 
             // If there is no payment id, then there is a payment already processing with the same client id
-            if (paymentId == null)
+            if (paymentInfo.PaymentProcessStatus == PaymentProcessStatus.Conflict)
             {
                 return Conflict($"There is already a payment processing with client id: {parsedClientId}");
             }
 
-            var paymentObject = new { PaymentId = paymentId.ToString() };
-
-            return CreatedAtAction(nameof(InitiatePayment).ToLower(), paymentObject);
+            return CreatedAtAction(nameof(InitiatePayment).ToLower(), paymentInfo.PaymentId);
         }
     }
 }

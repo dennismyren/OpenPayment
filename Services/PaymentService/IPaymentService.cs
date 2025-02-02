@@ -6,7 +6,7 @@ namespace OpenPayment.Services.PaymentService
 {
     public interface IPaymentService
     {
-        Task<Guid?> AddPaymentToProcessing(PaymentRequestDTO paymentRequest, Guid clientId);
+        Task<(Guid? PaymentId, PaymentProcessStatus PaymentProcessStatus)> AddPaymentToProcessing(PaymentRequestDTO paymentRequest, Guid clientId);
         ChannelReader<Payment> GetPaymentQueueReader();
         bool RemovePaymentFromProcessing(Guid clientId);
         List<Transaction> GetTransactionsByIban(string iban);

@@ -17,7 +17,7 @@ namespace OpenPayment.Services.PaymentService
             _logger = logger;
         }
 
-        public async Task<Guid?> AddPaymentToProcessing(PaymentRequestDTO paymentRequest, Guid clientId)
+        public async Task<(Guid? PaymentId, PaymentProcessStatus PaymentProcessStatus)> AddPaymentToProcessing(PaymentRequestDTO paymentRequest, Guid clientId)
         {
             var payment = new Payment()
             {
@@ -29,16 +29,14 @@ namespace OpenPayment.Services.PaymentService
                 InstructedAmount = paymentRequest.InstructedAmount,
             };
 
-            // Check if there is a payment with client id present on the queue.
+            // Check if there is a payment processing with client id present
             if (!_paymentsInProcess.TryAdd(payment.ClientId, payment))
             {
-                return null;
+                return (null, PaymentProcessStatus.Conflict);
             }
 
-            _paymentsInProcess[payment.ClientId] = payment;
-
             await _paymentProcessingChannel.Writer.WriteAsync(payment);
-            return payment.PaymentId;
+            return (payment.PaymentId, PaymentProcessStatus.Success);
         }
 
         public bool RemovePaymentFromProcessing(Guid clientId)
