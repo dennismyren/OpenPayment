@@ -22,11 +22,11 @@ namespace OpenPayment.Controllers
         {
             if (!Request.Headers.TryGetValue("Client-ID", out var clientId))
             {
-                return BadRequest("Missing header Client-ID");
+                return BadRequest("Missing required header: Client-ID");
             }
             if (!Guid.TryParse(clientId, out Guid parsedClientId))
             {
-                return BadRequest("The format of the Client-ID is wrong");
+                return BadRequest("Invalid Client-ID header: expected a GUID in the format 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.");
             }
 
             var paymentId = await _paymentService.AddPaymentToProcessing(initiatePaymentRequest, parsedClientId);
