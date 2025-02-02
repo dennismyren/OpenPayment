@@ -27,7 +27,7 @@ namespace OpenPayment.Services.PaymentProcessor
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError($"Error processing payment {payment.PaymentId}: {ex.Message}");
+                        _logger.LogError(ex, "Error processing payment {PaymentId}", payment.PaymentId);
                     }
                 });
             }
@@ -35,7 +35,7 @@ namespace OpenPayment.Services.PaymentProcessor
 
         private async Task ProcessPayment(Payment payment)
         {
-            _logger.LogInformation($"Processing payment {payment.PaymentId} for Client {payment.ClientId}...");
+            _logger.LogInformation("Processing payment {PaymentId} for Client {ClientId}...", payment.PaymentId, payment.ClientId);
 
             await Task.Delay(2000);
 
@@ -55,7 +55,7 @@ namespace OpenPayment.Services.PaymentProcessor
                 _paymentService.AddTransaction(transaction.CreditorAccount, transaction);
             }
 
-            _logger.LogInformation($"Payment {payment.PaymentId} for Client {payment.ClientId} processed successfully.");
+            _logger.LogInformation("Payment {PaymentId} for Client {ClientId} processed successfully.", payment.PaymentId, payment.ClientId);
         }
     }
 }

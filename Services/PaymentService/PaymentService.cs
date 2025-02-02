@@ -47,18 +47,16 @@ namespace OpenPayment.Services.PaymentService
             {
                 if (_paymentsInProcess.TryRemove(clientId, out Payment? payment))
                 {
-                    _logger.LogInformation($"Dequeued payment request with clientid: {payment.ClientId}");
+                    _logger.LogInformation("Processing complete: Payment with clientid: {ClientId}", clientId);
                     return true;
                 }
-                else
-                {
-                    _logger.LogInformation($"Payment request with clientid: {clientId} was not on queue");
-                    return false;
-                }
+
+                _logger.LogInformation("Payment with clientid: {ClientId} was not processing", clientId);
+                return false;
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Could not remove payment from processing: {ex.Message}");
+                _logger.LogError(ex, "Could not remove payment from processing with id: {ClientId}", clientId);
                 return false;
             }
         }
